@@ -42,7 +42,7 @@ tasks.named<Test>("test") {
 }
 
 publishing {
-    publications.create<MavenPublication>("esoteric-utility") {
+    publications.create<MavenPublication>(rootProject.name) {
         from(components["java"])
         artifactId = rootProject.name
     }
