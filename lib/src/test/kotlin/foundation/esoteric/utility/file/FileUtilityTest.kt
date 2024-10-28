@@ -34,6 +34,13 @@ class FileUtilityTest {
         assertFalse(FileUtility.isRecursivelyEmpty(run))
     }
 
+    @Test fun deeplyFilledDirectoryIsNotRecursivelyEmpty() {
+        File("run/directory").mkdir()
+        File("run/directory/file.txt").createNewFile()
+
+        assertFalse(FileUtility.isRecursivelyEmpty(run))
+    }
+
     @AfterTest fun deleteRunDirectory() {
         FileUtils.deleteDirectory(run)
     }
