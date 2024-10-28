@@ -36,8 +36,16 @@ tasks.named<Test>("test") {
 }
 
 publishing {
-    publications.create<MavenPublication>(rootProject.name) {
-        from(components["java"])
-        artifactId = rootProject.name
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+            groupId = group.toString()
+            artifactId = rootProject.name
+            version = version.toString()
+        }
     }
+}
+
+tasks.named("publishMavenJavaPublicationToMavenLocal") {
+    dependsOn(tasks.named("build"))
 }
