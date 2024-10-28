@@ -1,7 +1,6 @@
 package foundation.esoteric.utility.resource
 
-import java.io.IOException
-import java.util.jar.JarEntry
+import java.io.File
 import java.util.jar.JarFile
 
 /**
@@ -9,46 +8,38 @@ import java.util.jar.JarFile
  */
 class ResourceUtility {
     companion object {
-        @Throws(IOException::class)
-        private fun getResourceFilePaths(path: String): List<String> {
-            val classLoader: ClassLoader = ResourceUtility::class.java.classLoader
+        fun getResourceFilePaths(folderPath: String): List<String> {
+            val filePaths = mutableListOf<String>()
 
-            val jarURL = classLoader.getResource(path) ?: return emptyList()
+            // Try to locate the JAR where this class is loaded from
+            val url = object {}.javaClass.classLoader.getResource(folderPath)?.toURI() ?: return emptyList()
 
-            val jarPath = jarURL.path
-            val exclamationMarkIndex = jarPath.indexOf("!")
-
-            val jarPathPrefix = "file:"
-            val jarFilePath = jarPath.substring(jarPathPrefix.length, exclamationMarkIndex)
-
-            JarFile(jarFilePath).use { jarFile ->
-                val paths = jarFile.stream().map { obj: JarEntry -> obj.name }
-                    .filter { name: String -> name.startsWith(path) && name != path }
-                    .map { name: String -> name.substring(path.length) }
-                    .filter { name: String -> "/" != name }.map { name: String -> path + name }.toList()
-                return paths
-            }
-        }
-
-        /**
-         * This method loops through a folder in the **resources** folder and returns the paths of all files stored in said folder.
-         * @param path The path to the folder in **resources** to get the file paths of.
-         * @return A list of all the paths of all files stored in the folder specified by the path parameter.
-         */
-        @Throws(IOException::class)
-        fun getResourceFilePathsRecursively(path: String): List<String> {
-            val paths: MutableList<String> = ArrayList()
-
-            for (resourceFilePath in getResourceFilePaths(path)) {
-                val subFiles = getResourceFilePathsRecursively(resourceFilePath)
-                if (subFiles.isEmpty()) {
-                    paths.add(resourceFilePath)
-                } else {
-                    paths.addAll(subFiles)
+            when {
+                url.scheme == "file" -> {
+                    // If resources are not in a JAR (e.g., running locally)
+                    val folderFile = File(url)
+                    folderFile.walkTopDown().forEach { file ->
+                        if (file.isFile) {
+                            filePaths.add(file.relativeTo(folderFile).path)
+                        }
+                    }
+                }
+                url.scheme == "jar" -> {
+                    // If resources are in a JAR file
+                    val jarPath = url.path.substringBefore("!").removePrefix("file:")
+                    JarFile(jarPath).use { jarFile ->
+                        val entries = jarFile.entries()
+                        while (entries.hasMoreElements()) {
+                            val entry = entries.nextElement()
+                            if (entry.name.startsWith(folderPath) && !entry.isDirectory) {
+                                filePaths.add(entry.name.removePrefix("$folderPath/"))
+                            }
+                        }
+                    }
                 }
             }
 
-            return paths
+            return filePaths
         }
     }
 }
