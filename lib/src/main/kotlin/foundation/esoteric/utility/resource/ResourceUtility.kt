@@ -11,29 +11,25 @@ class ResourceUtility {
         fun getResourceFilePaths(folderPath: String): List<String> {
             val filePaths = mutableListOf<String>()
 
-            // Try to locate the JAR or folder where this class is loaded from
             val url = object {}.javaClass.classLoader.getResource(folderPath)?.toURI() ?: return emptyList()
 
             when {
                 url.scheme == "file" -> {
-                    // If resources are not in a JAR (e.g., running locally)
                     val folderFile = File(url)
                     folderFile.walkTopDown().forEach { file ->
                         if (file.isFile) {
-                            // Include the full path relative to 'folderPath'
                             filePaths.add("$folderPath/${file.relativeTo(folderFile).path}")
                         }
                     }
                 }
                 url.scheme == "jar" -> {
-                    // If resources are in a JAR file
                     val jarPath = url.path.substringBefore("!").removePrefix("file:")
                     JarFile(jarPath).use { jarFile ->
                         val entries = jarFile.entries()
                         while (entries.hasMoreElements()) {
                             val entry = entries.nextElement()
                             if (entry.name.startsWith(folderPath) && !entry.isDirectory) {
-                                filePaths.add(entry.name)  // Preserve the full relative path within the JAR
+                                filePaths.add(entry.name)
                             }
                         }
                     }
