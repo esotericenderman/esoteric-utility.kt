@@ -6,7 +6,7 @@ plugins {
     id("maven-publish")
 }
 
-group = "dev.enderman"
+group = "foundation.esoteric"
 version = "0.2.0"
 
 repositories {
