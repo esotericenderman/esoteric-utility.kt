@@ -8,17 +8,22 @@ import java.util.jar.JarFile
  */
 class ResourceUtility {
     companion object {
-        fun getResourceFilePaths(folderPath: String): List<String> {
+        /**
+         * This method loops through a folder in the **resources** folder and returns the paths of all files stored in said folder.
+         * @param path The path to the folder in **resources** to get the file paths of.
+         * @return A list of all the paths of all files stored in the folder specified by the path parameter.
+         */
+        fun getResourceFilePaths(path: String): List<String> {
             val filePaths = mutableListOf<String>()
 
-            val url = object {}.javaClass.classLoader.getResource(folderPath)?.toURI() ?: return emptyList()
+            val url = object {}.javaClass.classLoader.getResource(path)?.toURI() ?: return emptyList()
 
             when {
                 url.scheme == "file" -> {
                     val folderFile = File(url)
                     folderFile.walkTopDown().forEach { file ->
                         if (file.isFile) {
-                            filePaths.add("$folderPath/${file.relativeTo(folderFile).path}")
+                            filePaths.add("$path/${file.relativeTo(folderFile).path}")
                         }
                     }
                 }
@@ -28,7 +33,7 @@ class ResourceUtility {
                         val entries = jarFile.entries()
                         while (entries.hasMoreElements()) {
                             val entry = entries.nextElement()
-                            if (entry.name.startsWith(folderPath) && !entry.isDirectory) {
+                            if (entry.name.startsWith(path) && !entry.isDirectory) {
                                 filePaths.add(entry.name)
                             }
                         }
