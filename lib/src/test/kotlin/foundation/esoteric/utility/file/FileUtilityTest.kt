@@ -2,21 +2,39 @@ package foundation.esoteric.utility.file
 
 import org.apache.commons.io.FileUtils
 import java.io.File
-import kotlin.test.Test
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 class FileUtilityTest {
+
+    private val run = File("run")
+
+    @BeforeTest fun createRunDirectory() {
+        run.mkdir()
+    }
+
+    @Test fun emptyDirectoryIsRecursivelyEmpty() {
+        assertTrue(FileUtility.isRecursivelyEmpty(run))
+
+        FileUtils.deleteDirectory(run)
+    }
+
     @Test fun recursivelyEmptyCheckWorks() {
-        File("run").mkdir()
+        File("run/directory-one").mkdir()
+        File("run/directory-two").mkdir()
 
-        File("run/empty-directory").mkdir()
-        assertTrue(FileUtility.isRecursivelyEmpty("run/empty-directory"))
+        File("run/directory-two/directory-three").mkdir()
+        File("run/directory-two/directory-four").mkdir()
 
-        File("run/non-empty-directory").mkdir()
-        File("run/non-empty-directory/file.txt").createNewFile()
-        assertFalse(FileUtility.isRecursivelyEmpty("run/non-empty-directory"))
+        assertTrue(FileUtility.isRecursivelyEmpty(run))
+    }
 
-        FileUtils.deleteDirectory(File("run"))
+    @Test fun filledDirectoryIsNotRecursivelyEmpty() {
+        File("run/file.txt").createNewFile()
+
+        assertFalse(FileUtility.isRecursivelyEmpty(run))
+    }
+
+    @AfterTest fun deleteRunDirectory() {
+        FileUtils.deleteDirectory(run)
     }
 }
