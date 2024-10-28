@@ -4,10 +4,13 @@ import java.io.IOException
 import java.util.jar.JarEntry
 import java.util.jar.JarFile
 
+/**
+ * A collection of static methods that help when working with **resource** files.
+ */
 class ResourceUtility {
     companion object {
         @Throws(IOException::class)
-        fun getResourceFilePaths(path: String): List<String> {
+        private fun getResourceFilePaths(path: String): List<String> {
             val classLoader: ClassLoader = ResourceUtility::class.java.classLoader
 
             val jarURL = classLoader.getResource(path) ?: return emptyList()
@@ -27,6 +30,11 @@ class ResourceUtility {
             }
         }
 
+        /**
+         * This method loops through a folder in the **resources** folder and returns the paths of all files stored in said folder.
+         * @param path The path to the folder in **resources** to get the file paths of.
+         * @return A list of all the paths of all files stored in the folder specified by the path parameter.
+         */
         @Throws(IOException::class)
         fun getResourceFilePathsRecursively(path: String): List<String> {
             val paths: MutableList<String> = ArrayList()
