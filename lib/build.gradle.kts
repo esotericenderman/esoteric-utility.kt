@@ -16,15 +16,9 @@ repositories {
 dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 
-    testImplementation(libs.junit.jupiter.engine)
-
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    api(libs.commons.math3)
-
     implementation("commons-io:commons-io:2.17.0")
-
-    implementation(libs.guava)
 }
 
 java {
