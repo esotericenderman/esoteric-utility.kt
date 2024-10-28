@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.jvm)
 
     `java-library`
+
+    id("maven-publish")
 }
 
 group = "dev.enderman"
@@ -37,4 +39,11 @@ tasks.named<Jar>("jar") {
 
 tasks.named<Test>("test") {
     useJUnitPlatform()
+}
+
+publishing {
+    publications.create<MavenPublication>("esoteric-utility") {
+        from(components["java"])
+        artifactId = rootProject.name
+    }
 }
