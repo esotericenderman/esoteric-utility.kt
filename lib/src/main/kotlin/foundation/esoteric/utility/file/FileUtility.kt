@@ -9,7 +9,7 @@ class FileUtility {
 
             val files = directory.listFiles()
 
-            if (files == null || files.size == 0) {
+            if (files == null || files.isEmpty()) {
                 return true
             }
 
