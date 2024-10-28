@@ -4,7 +4,7 @@ import kotlin.test.Test
 
 class ResourceUtilityTest {
     @Test fun resourcesListIsCorrect() {
-        val resourcePaths = ResourceUtility.getResourceFilePaths("resource/Test Folder")
+        val resourcePaths = ResourceUtility.getResourceFilePaths("resource")
 
         println(resourcePaths.toString())
     }
