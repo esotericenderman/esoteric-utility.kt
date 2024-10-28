@@ -15,10 +15,10 @@ class ResourceUtility {
          * @param path The path to the folder in **resources** to get the file paths of.
          * @return A set of all the paths of all files stored in the folder specified by the path parameter.
          */
-        fun getResourceFilePaths(path: String): Set<Path> {
+         fun getResourceFilePaths(path: Path): Set<Path> {
             val filePaths = mutableSetOf<Path>()
 
-            val url = object {}.javaClass.classLoader.getResource(path)?.toURI() ?: return emptySet()
+            val url = object {}.javaClass.classLoader.getResource(path.toString())?.toURI() ?: return emptySet()
 
             when (url.scheme) {
                 "file" -> {
@@ -35,7 +35,7 @@ class ResourceUtility {
                         val entries = jarFile.entries()
                         while (entries.hasMoreElements()) {
                             val entry = entries.nextElement()
-                            if (entry.name.startsWith(path) && !entry.isDirectory) {
+                            if (entry.name.startsWith(path.toString()) && !entry.isDirectory) {
                                 filePaths.add(Paths.get(entry.name))
                             }
                         }
@@ -44,6 +44,15 @@ class ResourceUtility {
             }
 
             return filePaths
+        }
+
+        /**
+         * This method loops through a folder in the **resources** folder and returns the paths of all files stored in said folder.
+         * @param path The string path to the folder in **resources** to get the file paths of.
+         * @return A set of all the paths of all files stored in the folder specified by the path parameter.
+         */
+        fun getResourceFilePaths(path: String): Set<Path> {
+            return getResourceFilePaths(Path.of(path))
         }
     }
 }
