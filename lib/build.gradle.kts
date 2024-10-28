@@ -45,7 +45,3 @@ publishing {
         }
     }
 }
-
-tasks.named("publishMavenJavaPublicationToMavenLocal") {
-    dependsOn(tasks.named("build"))
-}
