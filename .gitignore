@@ -34,3 +34,6 @@ build
 
 # Working directory
 run
+
+# Gradle wrapper, should be committed
+!gradle/wrapper/gradle-wrapper.jar
