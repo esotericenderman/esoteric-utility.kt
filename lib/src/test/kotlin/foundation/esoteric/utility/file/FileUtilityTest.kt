@@ -1,5 +1,6 @@
 package foundation.esoteric.utility.file
 
+import org.apache.commons.io.FileUtils
 import java.io.File
 import kotlin.test.Test
 import kotlin.test.assertFalse
@@ -15,5 +16,7 @@ class FileUtilityTest {
         File("run/non-empty-directory").mkdir()
         File("run/non-empty-directory/file.txt").createNewFile()
         assertFalse(FileUtility.isRecursivelyEmpty(File("run/non-empty-directory")))
+
+        FileUtils.deleteDirectory(File("run"))
     }
 }

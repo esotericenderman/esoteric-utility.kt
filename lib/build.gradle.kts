@@ -30,6 +30,8 @@ dependencies {
     // This dependency is exported to consumers, that is to say found on their compile classpath.
     api(libs.commons.math3)
 
+    implementation("commons-io:commons-io:2.17.0")
+
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation(libs.guava)
 }
