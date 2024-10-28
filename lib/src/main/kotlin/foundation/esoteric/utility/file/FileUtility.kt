@@ -25,5 +25,9 @@ class FileUtility {
 
             return true
         }
+
+        fun isRecursivelyEmpty(directoryPath: String): Boolean {
+            return isRecursivelyEmpty(File(directoryPath))
+        }
     }
 }

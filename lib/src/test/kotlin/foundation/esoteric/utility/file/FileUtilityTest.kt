@@ -11,11 +11,11 @@ class FileUtilityTest {
         File("run").mkdir()
 
         File("run/empty-directory").mkdir()
-        assertTrue(FileUtility.isRecursivelyEmpty(File("run/empty-directory")))
+        assertTrue(FileUtility.isRecursivelyEmpty("run/empty-directory"))
 
         File("run/non-empty-directory").mkdir()
         File("run/non-empty-directory/file.txt").createNewFile()
-        assertFalse(FileUtility.isRecursivelyEmpty(File("run/non-empty-directory")))
+        assertFalse(FileUtility.isRecursivelyEmpty("run/non-empty-directory"))
 
         FileUtils.deleteDirectory(File("run"))
     }
