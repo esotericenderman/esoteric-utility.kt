@@ -37,3 +37,6 @@ run
 
 # Gradle wrapper, should be committed
 !gradle/wrapper/gradle-wrapper.jar
+
+# VSCode files
+lib/bin
