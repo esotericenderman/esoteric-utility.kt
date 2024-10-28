@@ -31,6 +31,10 @@ java {
     }
 }
 
+tasks.named<Jar>("jar") {
+    archiveFileName.set("${rootProject.name}-${project.version}.jar")
+}
+
 tasks.named<Test>("test") {
     useJUnitPlatform()
 }
