@@ -18,8 +18,8 @@ class ResourceUtility {
 
             val url = object {}.javaClass.classLoader.getResource(path)?.toURI() ?: return emptyList()
 
-            when {
-                url.scheme == "file" -> {
+            when (url.scheme) {
+                "file" -> {
                     val folderFile = File(url)
                     folderFile.walkTopDown().forEach { file ->
                         if (file.isFile) {
@@ -27,7 +27,7 @@ class ResourceUtility {
                         }
                     }
                 }
-                url.scheme == "jar" -> {
+                "jar" -> {
                     val jarPath = url.path.substringBefore("!").removePrefix("file:")
                     JarFile(jarPath).use { jarFile ->
                         val entries = jarFile.entries()
