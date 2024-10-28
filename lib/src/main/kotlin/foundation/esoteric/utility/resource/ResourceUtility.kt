@@ -1,6 +1,8 @@
 package foundation.esoteric.utility.resource
 
 import java.io.File
+import java.nio.file.Path
+import java.nio.file.Paths
 import java.util.jar.JarFile
 
 /**
@@ -13,8 +15,8 @@ class ResourceUtility {
          * @param path The path to the folder in **resources** to get the file paths of.
          * @return A set of all the paths of all files stored in the folder specified by the path parameter.
          */
-        fun getResourceFilePaths(path: String): Set<String> {
-            val filePaths = mutableSetOf<String>()
+        fun getResourceFilePaths(path: String): Set<Path> {
+            val filePaths = mutableSetOf<Path>()
 
             val url = object {}.javaClass.classLoader.getResource(path)?.toURI() ?: return emptySet()
 
@@ -23,7 +25,7 @@ class ResourceUtility {
                     val folderFile = File(url)
                     folderFile.walkTopDown().forEach { file ->
                         if (file.isFile) {
-                            filePaths.add("$path/${file.relativeTo(folderFile).path}")
+                            filePaths.add(Paths.get("$path/${file.relativeTo(folderFile).path}"))
                         }
                     }
                 }
@@ -34,7 +36,7 @@ class ResourceUtility {
                         while (entries.hasMoreElements()) {
                             val entry = entries.nextElement()
                             if (entry.name.startsWith(path) && !entry.isDirectory) {
-                                filePaths.add(entry.name)
+                                filePaths.add(Paths.get(entry.name))
                             }
                         }
                     }
