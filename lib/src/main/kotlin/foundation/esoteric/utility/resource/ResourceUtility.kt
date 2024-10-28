@@ -11,12 +11,12 @@ class ResourceUtility {
         /**
          * This method loops through a folder in the **resources** folder and returns the paths of all files stored in said folder.
          * @param path The path to the folder in **resources** to get the file paths of.
-         * @return A list of all the paths of all files stored in the folder specified by the path parameter.
+         * @return A set of all the paths of all files stored in the folder specified by the path parameter.
          */
-        fun getResourceFilePaths(path: String): List<String> {
-            val filePaths = mutableListOf<String>()
+        fun getResourceFilePaths(path: String): Set<String> {
+            val filePaths = mutableSetOf<String>()
 
-            val url = object {}.javaClass.classLoader.getResource(path)?.toURI() ?: return emptyList()
+            val url = object {}.javaClass.classLoader.getResource(path)?.toURI() ?: return emptySet()
 
             when (url.scheme) {
                 "file" -> {
