@@ -1,9 +1,9 @@
 package foundation.esoteric.utility.resource
 
+import org.junit.jupiter.api.assertThrows
 import java.nio.file.Path
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 
 class ResourceUtilityTest {
     @Test fun resourcesListIsCorrect() {
@@ -13,14 +13,8 @@ class ResourceUtilityTest {
     }
 
     @Test fun getResourcePathsThrowsCorrectly() {
-        var expected: Exception? = null
-
-        try {
+        assertThrows<Exception> {
             ResourceUtility.getResourceFilePaths("some random path that does not exist")
-        } catch (exception: Exception) {
-            expected = exception
         }
-
-        assertNotNull(expected)
     }
 }

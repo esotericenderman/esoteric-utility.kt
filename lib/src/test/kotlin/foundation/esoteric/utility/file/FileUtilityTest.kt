@@ -1,8 +1,8 @@
 package foundation.esoteric.utility.file
 
 import org.apache.commons.io.FileUtils
+import org.junit.jupiter.api.assertThrows
 import java.io.File
-import kotlin.math.exp
 import kotlin.test.*
 
 class FileUtilityTest {
@@ -45,17 +45,9 @@ class FileUtilityTest {
     @Test fun recursiveEmptinessThrowsWhenNotDirectory() {
         val file = File("run/file.txt")
 
-        file.createNewFile()
-
-        var expected: Exception? = null
-
-        try {
+        assertThrows<Exception> {
             FileUtility.isRecursivelyEmpty(file)
-        } catch (exception: Exception) {
-            expected = exception
         }
-
-        assertNotNull(expected)
     }
 
     @AfterTest fun deleteRunDirectory() {
