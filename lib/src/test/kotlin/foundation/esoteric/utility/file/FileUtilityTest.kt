@@ -82,6 +82,36 @@ class FileUtilityTest {
         }
     }
 
+    @Test fun zippingFolderWorks() {
+        val folderToZip = File(run, "folder-to-zip")
+        folderToZip.mkdir()
+
+        val fileOne = File(folderToZip, "file-1.txt")
+        val fileTwo = File(folderToZip, "file-2.txt")
+
+        fileOne.createNewFile()
+        fileTwo.createNewFile()
+
+        fileOne.writeText("Some sample text.")
+        fileTwo.writeText("Some other sample text.")
+
+        val subFolder = File(folderToZip, "subfolder")
+        subFolder.mkdir()
+
+        val fileThree = File(subFolder, "file-3.txt")
+        fileThree.createNewFile()
+
+        fileThree.writeText("Third sample text.")
+
+        val extraFolder = File(run, "result-folder")
+        extraFolder.mkdir()
+
+        val resultFile = File(extraFolder, "result.zip")
+        FileUtility.zipFolder(folderToZip, resultFile)
+
+        assertTrue(resultFile.exists())
+    }
+
     @AfterTest fun deleteRunDirectory() {
         FileUtils.deleteDirectory(run)
     }
