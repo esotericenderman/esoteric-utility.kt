@@ -68,6 +68,20 @@ class FileUtilityTest {
         assertEquals(FileUtility.getSha1Hash(file), "d954f0153df726daae33c93f6928fadbfb15fa92")
     }
 
+    @Test fun sha1FileThrowsWhenFileNonExistent() {
+        val file = File(run, "file.txt")
+
+        assertThrows<IllegalArgumentException> {
+            FileUtility.getSha1Hash(file)
+        }
+    }
+
+    @Test fun sha1FileThrowsWhenFileIsDirectory() {
+        assertThrows<IllegalArgumentException> {
+            FileUtility.getSha1Hash(run)
+        }
+    }
+
     @AfterTest fun deleteRunDirectory() {
         FileUtils.deleteDirectory(run)
     }
