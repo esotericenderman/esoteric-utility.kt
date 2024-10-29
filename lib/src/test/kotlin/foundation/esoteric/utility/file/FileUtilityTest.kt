@@ -44,6 +44,15 @@ class FileUtilityTest {
 
     @Test fun recursiveEmptinessThrowsWhenNotDirectory() {
         val file = File("run/file.txt")
+        file.createNewFile()
+
+        assertThrows<IllegalArgumentException> {
+            FileUtility.isRecursivelyEmpty(file)
+        }
+    }
+
+    @Test fun recursiveEmptinessThrowsWhenNonExistent() {
+        val file = File("run/file.txt")
 
         assertThrows<IllegalArgumentException> {
             FileUtility.isRecursivelyEmpty(file)
