@@ -112,6 +112,12 @@ class FileUtilityTest {
         assertTrue(resultFile.exists())
     }
 
+    @Test fun zipFolderThrowsWhenFolderNonExistent() {
+        assertThrows<IllegalArgumentException> {
+            FileUtility.zipFolder(File(run, "folder-that-does-not-exist"), File(run, "result.zip"))
+        }
+    }
+
     @AfterTest fun deleteRunDirectory() {
         FileUtils.deleteDirectory(run)
     }
