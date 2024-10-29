@@ -100,5 +100,15 @@ class FileUtility {
                 }
             }
         }
+
+        @Throws(IOException::class)
+        fun zipFolder(sourceFolderPath: Path, zipFilePath: Path) {
+            zipFolder(sourceFolderPath.toFile(), zipFilePath.toFile())
+        }
+
+        @Throws(IOException::class)
+        fun zipFolder(sourceFolderPath: String, zipFilePath: String) {
+            zipFolder(Path.of(sourceFolderPath), Path.of(zipFilePath))
+        }
     }
 }
