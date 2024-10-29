@@ -15,7 +15,8 @@ class FileUtility {
          * @param directory The directory to check for recursive emptiness.
          */
         fun isRecursivelyEmpty(directory: File): Boolean {
-            require(directory.isDirectory) { "The specified path is not a directory" }
+            require(directory.exists()) { "The specified directory does not exist." }
+            require(directory.isDirectory) { "The specified path is not a directory." }
 
             val files = directory.listFiles()
 

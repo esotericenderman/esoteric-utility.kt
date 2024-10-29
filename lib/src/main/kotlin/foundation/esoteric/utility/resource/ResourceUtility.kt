@@ -18,7 +18,9 @@ class ResourceUtility {
          fun getResourceFilePaths(path: Path): Set<Path> {
             val filePaths = mutableSetOf<Path>()
 
-            val url = object {}.javaClass.classLoader.getResource(path.toString())?.toURI() ?: return emptySet()
+            val url = object {}.javaClass.classLoader.getResource(path.toString())?.toURI()
+
+            requireNotNull(url) { "The specified resource path could not be found." }
 
             when (url.scheme) {
                 "file" -> {
