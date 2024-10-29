@@ -1,5 +1,6 @@
 package foundation.esoteric.utility.file
 
+import foundation.esoteric.utility.string.StringUtility
 import java.io.File
 import java.nio.file.Path
 
@@ -55,6 +56,16 @@ class FileUtility {
          */
         fun isRecursivelyEmpty(directoryPath: String): Boolean {
             return isRecursivelyEmpty(File(directoryPath))
+        }
+
+        fun getSha1Hash(filePath: String): String {
+            val file = File(filePath)
+
+            require(file.exists()) { "File does not exist." }
+            require(file.isFile) { "File is not a file." }
+
+            val content = file.readText()
+            return StringUtility.getSha1Hash(content)
         }
     }
 }
