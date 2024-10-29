@@ -88,6 +88,11 @@ class FileUtility {
             return getSha1Hash(Path.of(filePath))
         }
 
+        /**
+         * This method creates a zip archive of the file specified and outputs it at the specified location.
+         * @param sourceFolder The folder to create a zip archive of.
+         * @param zipFile The File location of where to output the zip archive.
+         */
         @Throws(IOException::class)
         fun zipFolder(sourceFolder: File, zipFile: File) {
             ZipFile(zipFile).use { zipFileInstance ->
@@ -101,11 +106,21 @@ class FileUtility {
             }
         }
 
+        /**
+         * This method creates a zip archive of the file specified and outputs it at the specified location.
+         * @param sourceFolderPath The Path of the folder to create a zip archive of.
+         * @param zipFilePath The Path to where to output the zip archive.
+         */
         @Throws(IOException::class)
         fun zipFolder(sourceFolderPath: Path, zipFilePath: Path) {
             zipFolder(sourceFolderPath.toFile(), zipFilePath.toFile())
         }
 
+        /**
+         * This method creates a zip archive of the file specified and outputs it at the specified location.
+         * @param sourceFolderPath The path of the folder to create a zip archive of.
+         * @param zipFilePath The Path to where to output the zip archive.
+         */
         @Throws(IOException::class)
         fun zipFolder(sourceFolderPath: String, zipFilePath: String) {
             zipFolder(Path.of(sourceFolderPath), Path.of(zipFilePath))
