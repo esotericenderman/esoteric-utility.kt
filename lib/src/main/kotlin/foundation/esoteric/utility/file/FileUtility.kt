@@ -95,8 +95,11 @@ class FileUtility {
          */
         @Throws(IOException::class)
         fun zipFolder(sourceFolder: File, zipFile: File) {
+            requireNotNull(sourceFolder.listFiles()) { "Cannot list files of the source folder." }
+            require(sourceFolder.exists()) { "Source folder does not exist." }
+
             ZipFile(zipFile).use { zipFileInstance ->
-                for (file in sourceFolder.listFiles()) {
+                for (file in sourceFolder.listFiles()!!) {
                     if (file.isDirectory) {
                         zipFileInstance.addFolder(file)
                     } else {
