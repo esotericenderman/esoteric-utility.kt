@@ -20,7 +20,11 @@ class ResourceUtility {
 
             val url = object {}.javaClass.classLoader.getResource(path.toString())?.toURI()
 
+            println("Getting resource path files with URL: " + url.toString())
+
             requireNotNull(url) { "The specified resource path could not be found." }
+
+            println("URL schema: " + url.scheme.toString())
 
             when (url.scheme) {
                 "file" -> {
@@ -32,7 +36,12 @@ class ResourceUtility {
                     }
                 }
                 "jar" -> {
+                    println("URL path: " + url.path)
+
                     val jarPath = url.path.substringBefore("!").removePrefix("file:")
+
+                    println("jarPath = " + jarPath)
+
                     JarFile(jarPath).use { jarFile ->
                         val entries = jarFile.entries()
                         while (entries.hasMoreElements()) {
