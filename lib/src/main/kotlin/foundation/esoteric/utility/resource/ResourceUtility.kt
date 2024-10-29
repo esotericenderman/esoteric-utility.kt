@@ -15,7 +15,7 @@ class ResourceUtility {
          * @param path The path to the folder in **resources** to get the file paths of.
          * @return A set of all the paths of all files stored in the folder specified by the path parameter.
          */
-         fun getResourceFilePaths(path: Path): Set<Path> {
+        fun getResourceFilePaths(path: Path): Set<Path> {
             val filePaths = mutableSetOf<Path>()
 
             val url = object {}.javaClass.classLoader.getResource(path.toString())?.toURI()
@@ -38,18 +38,29 @@ class ResourceUtility {
                 "jar" -> {
                     println("URL path: " + url.path)
 
-                    val jarPath = url.path.substringBefore("!").removePrefix("file:")
+                    try {
+                        val jarFileUrl = url.toURL().openConnection() as java.net.JarURLConnection
 
-                    println("jarPath = " + jarPath)
+                        println("jarFileUrl = " + jarFileUrl)
+                        println("jarFileUrl.jarFileURL.path = " + jarFileUrl.jarFileURL.path)
 
-                    JarFile(jarPath).use { jarFile ->
-                        val entries = jarFile.entries()
-                        while (entries.hasMoreElements()) {
-                            val entry = entries.nextElement()
-                            if (entry.name.startsWith(path.toString()) && !entry.isDirectory) {
-                                filePaths.add(Paths.get(entry.name))
+                        JarFile(jarFileUrl.jarFileURL.path).use { jarFile ->
+                            val entries = jarFile.entries()
+
+                            while (entries.hasMoreElements()) {
+                                val entry = entries.nextElement()
+
+                                println("Entry name: " + entry.name)
+                                println("Entry is directory: " + entry.isDirectory)
+
+                                if (entry.name.startsWith(path.toString()) && !entry.isDirectory) {
+                                    filePaths.add(Paths.get(entry.name))
+                                }
                             }
                         }
+                    } catch (e: Exception) {
+                        println("Error accessing JAR file: ${e.message}")
+                        throw IllegalStateException("Failed to access JAR contents", e)
                     }
                 }
             }
