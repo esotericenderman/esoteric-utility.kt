@@ -13,7 +13,7 @@ class ResourceUtilityTest {
     }
 
     @Test fun getResourcePathsThrowsCorrectly() {
-        assertThrows<Exception> {
+        assertThrows<IllegalArgumentException> {
             ResourceUtility.getResourceFilePaths("some random path that does not exist")
         }
     }
