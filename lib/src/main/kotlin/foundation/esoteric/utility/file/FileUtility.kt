@@ -58,14 +58,32 @@ class FileUtility {
             return isRecursivelyEmpty(File(directoryPath))
         }
 
-        fun getSha1Hash(filePath: String): String {
-            val file = File(filePath)
-
+        /**
+         * This method returns the SHA-1 hash of a file.
+         * @param file The file to get the SHA-1 hash of.
+         */
+        fun getSha1Hash(file: File): String {
             require(file.exists()) { "File does not exist." }
             require(file.isFile) { "File is not a file." }
 
             val content = file.readText()
             return StringUtility.getSha1Hash(content)
+        }
+
+        /**
+         * This method returns the SHA-1 hash of a file.
+         * @param path The path of the file to get the SHA-1 hash of.
+         */
+        fun getSha1Hash(path: Path): String {
+            return getSha1Hash(path.toFile())
+        }
+
+        /**
+         * This method returns the SHA-1 hash of a file.
+         * @param filePath The string path of the file to get the SHA-1 hash of.
+         */
+        fun getSha1Hash(filePath: String): String {
+            return getSha1Hash(Path.of(filePath))
         }
     }
 }
