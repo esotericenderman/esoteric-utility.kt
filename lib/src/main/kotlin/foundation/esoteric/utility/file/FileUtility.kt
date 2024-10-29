@@ -1,7 +1,9 @@
 package foundation.esoteric.utility.file
 
 import foundation.esoteric.utility.string.StringUtility
+import net.lingala.zip4j.ZipFile
 import java.io.File
+import java.io.IOException
 import java.nio.file.Path
 
 /**
@@ -84,6 +86,19 @@ class FileUtility {
          */
         fun getSha1Hash(filePath: String): String {
             return getSha1Hash(Path.of(filePath))
+        }
+
+        @Throws(IOException::class)
+        fun zipFolder(sourceFolder: File, zipFile: File) {
+            ZipFile(zipFile).use { zipFileInstance ->
+                for (file in sourceFolder.listFiles()) {
+                    if (file.isDirectory) {
+                        zipFileInstance.addFolder(file)
+                    } else {
+                        zipFileInstance.addFile(file)
+                    }
+                }
+            }
         }
     }
 }

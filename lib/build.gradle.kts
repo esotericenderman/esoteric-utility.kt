@@ -19,6 +19,8 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     implementation("commons-io:commons-io:2.17.0")
+
+    implementation("net.lingala.zip4j", "zip4j", "2.11.5")
 }
 
 java {
