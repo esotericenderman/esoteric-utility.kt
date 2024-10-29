@@ -59,6 +59,15 @@ class FileUtilityTest {
         }
     }
 
+    @Test fun sha1FileHashWorks() {
+        val file = File(run, "file.txt")
+
+        file.createNewFile()
+        file.writeText("Some sample text to test the SHA-1 file hash function.")
+
+        assertEquals(FileUtility.getSha1Hash(file), "d954f0153df726daae33c93f6928fadbfb15fa92")
+    }
+
     @AfterTest fun deleteRunDirectory() {
         FileUtils.deleteDirectory(run)
     }
