@@ -78,6 +78,8 @@ class FileUtilityTest {
         assertTrue(resourcePack.exists())
         assertTrue(resourcePack.isFile)
         assertFalse(resourcePack.isDirectory)
+
+        assertEquals("c276751b2c56bc44bce393fb3356c0bd9f3a91b4", FileUtility.getSha1Hash(resourcePack))
     }
 
     @Test fun sha1FileThrowsWhenFileNonExistent() {
