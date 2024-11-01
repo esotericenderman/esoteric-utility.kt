@@ -1,8 +1,11 @@
 package foundation.esoteric.utility.resource
 
 import java.io.File
+import java.io.InputStream
+import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 import java.util.jar.JarFile
 
 /**
@@ -62,6 +65,30 @@ class ResourceUtility {
          */
         fun getResourceFilePaths(path: String): Set<Path> {
             return getResourceFilePaths(Path.of(path))
+        }
+
+        /**
+         * This method saves a resource in the "resources" folder to the file specified as the `outputPath`.
+         * @param resourcePath The path to the resource file.
+         * @param outputPath The path to the output file.
+         */
+        fun saveResource(resourcePath: Path, outputPath: Path) {
+            val resourceStream: InputStream? = object {}.javaClass.classLoader.getResourceAsStream(resourcePath.toString())
+            requireNotNull(resourceStream) { "Resource '$resourcePath' could not be found." }
+
+            Files.createDirectories(outputPath.parent)
+
+            Files.copy(resourceStream, outputPath, StandardCopyOption.REPLACE_EXISTING)
+            resourceStream.close()
+        }
+
+        /**
+         * This method saves a resource in the "resources" folder to the file specified as the `outputPath`.
+         * @param resourcePath The path to the resource file.
+         * @param outputPath The path to the output file.
+         */
+        fun saveResource(resourcePath: String, outputPath: String) {
+            saveResource(Path.of(resourcePath), Path.of(outputPath))
         }
     }
 }
