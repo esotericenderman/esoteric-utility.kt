@@ -1,8 +1,10 @@
 package foundation.esoteric.utility.file
 
+import foundation.esoteric.utility.resource.ResourceUtility
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.assertThrows
 import java.io.File
+import kotlin.io.path.Path
 import kotlin.test.*
 
 class FileUtilityTest {
@@ -66,6 +68,16 @@ class FileUtilityTest {
         file.writeText("Some sample text to test the SHA-1 file hash function.")
 
         assertEquals(FileUtility.getSha1Hash(file), "d954f0153df726daae33c93f6928fadbfb15fa92")
+    }
+
+    @Test fun sha1ZipFileHashWorks() {
+        val resourcePack = File(run.path, "TestPluginResourcePack.zip")
+
+        ResourceUtility.saveResource("file/FileUtilityTest/TestPluginResourcePack.zip", resourcePack.path)
+
+        assertTrue(resourcePack.exists())
+        assertTrue(resourcePack.isFile)
+        assertFalse(resourcePack.isDirectory)
     }
 
     @Test fun sha1FileThrowsWhenFileNonExistent() {

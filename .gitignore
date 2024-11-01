@@ -40,3 +40,6 @@ run
 
 # VSCode files
 lib/bin
+
+# Test for SHA-1 hash function
+!TestPluginResourcePack.zip
