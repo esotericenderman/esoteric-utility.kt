@@ -37,6 +37,11 @@ tasks.named<Test>("test") {
     useJUnitPlatform()
 }
 
+val sourcesJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("sources")
+    from(sourceSets.main.get().allSource)
+}
+
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
@@ -44,6 +49,8 @@ publishing {
             groupId = group.toString()
             artifactId = rootProject.name
             version = version.toString()
+
+            artifact(sourcesJar.get())
         }
     }
 }
