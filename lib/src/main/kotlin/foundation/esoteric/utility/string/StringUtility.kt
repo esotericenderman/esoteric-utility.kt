@@ -1,6 +1,6 @@
 package foundation.esoteric.utility.string
 
-import java.security.MessageDigest
+import foundation.esoteric.utility.byte.ByteUtility
 
 class StringUtility {
     companion object {
@@ -9,8 +9,7 @@ class StringUtility {
          * @param input The string to find the SHA-1 hash of.
          */
         fun getSha1Hash(input: String): String {
-            val bytes = MessageDigest.getInstance("SHA-1").digest(input.toByteArray())
-            return bytes.joinToString("") { "%02x".format(it) }
+            return ByteUtility.getSha1Hash(input.toByteArray())
         }
     }
 }

@@ -1,6 +1,6 @@
 package foundation.esoteric.utility.file
 
-import foundation.esoteric.utility.string.StringUtility
+import foundation.esoteric.utility.byte.ByteUtility
 import net.lingala.zip4j.ZipFile
 import java.io.File
 import java.io.IOException
@@ -68,8 +68,8 @@ class FileUtility {
             require(file.exists()) { "File does not exist." }
             require(file.isFile) { "File is not a file." }
 
-            val content = file.readText()
-            return StringUtility.getSha1Hash(content)
+            val bytes = file.readBytes()
+            return ByteUtility.getSha1Hash(bytes)
         }
 
         /**
