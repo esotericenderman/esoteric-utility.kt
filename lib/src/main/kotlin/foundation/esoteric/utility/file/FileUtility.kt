@@ -77,6 +77,8 @@ fun Path.getSha1Hash(): String {
  */
 @Throws(IOException::class)
 fun File.zipFolder(zipFile: File) {
+    require(this.isDirectory)
+    require(!this.isFile)
     requireNotNull(this.listFiles()) { "Cannot list files of the source folder." }
     require(this.exists()) { "Source folder does not exist." }
 
