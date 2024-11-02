@@ -11,6 +11,10 @@ import java.util.jar.JarFile
 /**
  * This method loops through the subfolder of the **resources** folder specified by this `Path` and returns the `Path`s of all files stored in said subfolder.
  * @return A set of all the paths of all files stored in the subfolder specified by this `Path`.
+ * @return The `Path`s of all files stored in this subfolder.
+ * @throws IllegalArgumentException If this `Path` does not lead to a valid resource.
+ * @see Path.saveResource
+ * @author Esoteric Enderman
  */
 fun Path.getResourceFilePaths(): Set<Path> {
     val filePaths = mutableSetOf<Path>()
@@ -54,7 +58,10 @@ fun Path.getResourceFilePaths(): Set<Path> {
 
 /**
  * This method saves the resource in the "resources" folder specified by this `Path` to the file specified as the `outputPath`.
- * @param outputPath The path to the output file.
+ * @param outputPath The `Path` to the output file.
+ * @return The `Path`s of all files stored in this subfolder.
+ * @throws IllegalArgumentException If this `Path` does not lead to a valid resource.
+ * @author Esoteric Enderman
  */
 fun Path.saveResource(outputPath: Path) {
     val resourceStream: InputStream? = object {}.javaClass.classLoader.getResourceAsStream(this.toString())

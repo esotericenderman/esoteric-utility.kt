@@ -1,6 +1,7 @@
 package foundation.esoteric.utility.file
 
 import foundation.esoteric.utility.byte.getSha1Hash
+import foundation.esoteric.utility.string.getSha1Hash
 import net.lingala.zip4j.ZipFile
 import java.io.File
 import java.io.IOException
@@ -12,6 +13,11 @@ import java.nio.file.Path
  * - The directory contains only **recursively empty** directories.
  *
  * Note that this `File` **must** be a directory to use this method.
+ * @return Whether this directory is **recursively empty**.
+ * @throws IllegalArgumentException If this directory does not exist.
+ * @throws IllegalArgumentException If this `File` is not a directory.
+ * @see Path.isRecursivelyEmpty
+ * @author Esoteric Enderman
  */
 fun File.isRecursivelyEmpty(): Boolean {
     require(this.exists()) { "The specified directory does not exist." }
@@ -43,15 +49,27 @@ fun File.isRecursivelyEmpty(): Boolean {
  * - The directory contains only **recursively empty** directories.
  *
  * Note that this `Path` **must** lead to a directory to use this method.
+ * @return Whether the directory that this path leads to is **recursively empty**.
+ * @throws IllegalArgumentException If the file that this path leads to does not exist.
+ * @throws IllegalArgumentException If this `Path` does not lead to a directory.
+ * @see File.isRecursivelyEmpty
+ * @author Esoteric Enderman
  */
 fun Path.isRecursivelyEmpty(): Boolean {
     return this.toFile().isRecursivelyEmpty()
 }
 
 /**
- * This method returns the SHA-1 hash of this `File`.
+ * This method computes and returns the SHA-1 hash of this `File`.
  *
  * Note that this `File` must not be a directory for this method to work.
+ * @return The SHA-1 hash of this `File`.
+ * @throws IllegalArgumentException If this `File` does not exist.
+ * @throws IllegalArgumentException If this `File` is a directory.
+ * @see Path.getSha1Hash
+ * @see String.getSha1Hash
+ * @see ByteArray.getSha1Hash
+ * @author Esoteric Enderman
  */
 fun File.getSha1Hash(): String {
     require(this.exists()) { "File does not exist." }
@@ -66,6 +84,13 @@ fun File.getSha1Hash(): String {
  * This method returns the SHA-1 hash of the file that this `Path` leads to.
  *
  * Note that this `Path` must not lead to a directory for this method to work.
+ * @return The SHA-1 hash of the file that this `Path` leads to.
+ * @throws IllegalArgumentException If the file does not exist.
+ * @throws IllegalArgumentException If the file is a directory.
+ * @see File.getSha1Hash
+ * @see String.getSha1Hash
+ * @see ByteArray.getSha1Hash
+ * @author Esoteric Enderman
  */
 fun Path.getSha1Hash(): String {
     return this.toFile().getSha1Hash()
@@ -74,6 +99,10 @@ fun Path.getSha1Hash(): String {
 /**
  * This method creates a zip archive of the directory that this `File` represents and outputs it at the specified location parameter `zipFile`.
  * @param zipFile The `File` location of where to output the zip archive.
+ * @throws IllegalArgumentException If this directory does not exist.
+ * @throws IllegalArgumentException If this file is not a directory.
+ * @see Path.zipFolder
+ * @author Esoteric Enderman
  */
 @Throws(IOException::class)
 fun File.zipFolder(zipFile: File) {
@@ -96,6 +125,10 @@ fun File.zipFolder(zipFile: File) {
 /**
  * This method creates a zip archive of the directory that this `Path` leads to and outputs it at the specified location parameter `zipFilePath`.
  * @param zipFilePath The `Path` that specifies the output of the zip archive.
+ * @throws IllegalArgumentException If the directory that this `Path` leads to does not exist.
+ * @throws IllegalArgumentException If the file that this `Path` leads to is not a directory.
+ * @see File.zipFolder
+ * @author Esoteric Enderman
  */
 @Throws(IOException::class)
 fun Path.zipFolder(zipFilePath: Path) {
