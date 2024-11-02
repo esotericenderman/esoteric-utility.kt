@@ -9,86 +9,59 @@ import java.nio.file.StandardCopyOption
 import java.util.jar.JarFile
 
 /**
- * A collection of static methods that help when working with **resource** files.
+ * This method loops through the subfolder of the **resources** folder specified by this `Path` and returns the `Path`s of all files stored in said subfolder.
+ * @return A set of all the paths of all files stored in the subfolder specified by this `Path`.
  */
-class ResourceUtility {
-    companion object {
-        /**
-         * This method loops through a folder in the **resources** folder and returns the paths of all files stored in said folder.
-         * @param path The path to the folder in **resources** to get the file paths of.
-         * @return A set of all the paths of all files stored in the folder specified by the path parameter.
-         */
-        fun getResourceFilePaths(path: Path): Set<Path> {
-            val filePaths = mutableSetOf<Path>()
+fun Path.getResourceFilePaths(): Set<Path> {
+    val filePaths = mutableSetOf<Path>()
 
-            val url = object {}.javaClass.classLoader.getResource(path.toString())?.toURI()
+    val url = object {}.javaClass.classLoader.getResource(this.toString())?.toURI()
 
-            requireNotNull(url) { "The specified resource URL could not be found." }
+    requireNotNull(url) { "The specified resource URL could not be found." }
 
-            when (url.scheme) {
-                "file" -> {
-                    val folderFile = File(url)
-                    folderFile.walkTopDown().forEach { file ->
-                        if (file.isFile) {
-                            filePaths.add(Paths.get("$path/${file.relativeTo(folderFile).path}"))
-                        }
-                    }
-                }
-                "jar" -> {
-                    try {
-                        val jarFileUrl = url.toURL().openConnection() as java.net.JarURLConnection
-
-                        JarFile(jarFileUrl.jarFileURL.path).use { jarFile ->
-                            val entries = jarFile.entries()
-
-                            while (entries.hasMoreElements()) {
-                                val entry = entries.nextElement()
-
-                                if (entry.name.startsWith(path.toString()) && !entry.isDirectory) {
-                                    filePaths.add(Paths.get(entry.name))
-                                }
-                            }
-                        }
-                    } catch (exception: Exception) {
-                        throw IllegalStateException("Failed to access JAR contents.", exception)
-                    }
+    when (url.scheme) {
+        "file" -> {
+            val folderFile = File(url)
+            folderFile.walkTopDown().forEach { file ->
+                if (file.isFile) {
+                    filePaths.add(Paths.get("$this/${file.relativeTo(folderFile).path}"))
                 }
             }
-
-            return filePaths
         }
+        "jar" -> {
+            try {
+                val jarFileUrl = url.toURL().openConnection() as java.net.JarURLConnection
 
-        /**
-         * This method loops through a folder in the **resources** folder and returns the paths of all files stored in said folder.
-         * @param path The string path to the folder in **resources** to get the file paths of.
-         * @return A set of all the paths of all files stored in the folder specified by the path parameter.
-         */
-        fun getResourceFilePaths(path: String): Set<Path> {
-            return getResourceFilePaths(Path.of(path))
-        }
+                JarFile(jarFileUrl.jarFileURL.path).use { jarFile ->
+                    val entries = jarFile.entries()
 
-        /**
-         * This method saves a resource in the "resources" folder to the file specified as the `outputPath`.
-         * @param resourcePath The path to the resource file.
-         * @param outputPath The path to the output file.
-         */
-        fun saveResource(resourcePath: Path, outputPath: Path) {
-            val resourceStream: InputStream? = object {}.javaClass.classLoader.getResourceAsStream(resourcePath.toString())
-            requireNotNull(resourceStream) { "Resource '$resourcePath' could not be found." }
+                    while (entries.hasMoreElements()) {
+                        val entry = entries.nextElement()
 
-            Files.createDirectories(outputPath.parent)
-
-            Files.copy(resourceStream, outputPath, StandardCopyOption.REPLACE_EXISTING)
-            resourceStream.close()
-        }
-
-        /**
-         * This method saves a resource in the "resources" folder to the file specified as the `outputPath`.
-         * @param resourcePath The path to the resource file.
-         * @param outputPath The path to the output file.
-         */
-        fun saveResource(resourcePath: String, outputPath: String) {
-            saveResource(Path.of(resourcePath), Path.of(outputPath))
+                        if (entry.name.startsWith(this.toString()) && !entry.isDirectory) {
+                            filePaths.add(Paths.get(entry.name))
+                        }
+                    }
+                }
+            } catch (exception: Exception) {
+                throw IllegalStateException("Failed to access JAR contents.", exception)
+            }
         }
     }
+
+    return filePaths
+}
+
+/**
+ * This method saves the resource in the "resources" folder specified by this `Path` to the file specified as the `outputPath`.
+ * @param outputPath The path to the output file.
+ */
+fun Path.saveResource(outputPath: Path) {
+    val resourceStream: InputStream? = object {}.javaClass.classLoader.getResourceAsStream(this.toString())
+    requireNotNull(resourceStream) { "Resource '$this' could not be found." }
+
+    Files.createDirectories(outputPath.parent)
+
+    Files.copy(resourceStream, outputPath, StandardCopyOption.REPLACE_EXISTING)
+    resourceStream.close()
 }

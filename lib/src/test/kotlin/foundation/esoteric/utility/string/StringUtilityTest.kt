@@ -7,6 +7,6 @@ class StringUtilityTest {
     @Test fun sha1HashWorks() {
         val string = "A string with a few characters in it."
 
-        assertEquals(StringUtility.getSha1Hash(string), "0e7f418083ad73f5006b5ffa1e7ddce617936a64")
+        assertEquals(string.getSha1Hash(), "0e7f418083ad73f5006b5ffa1e7ddce617936a64")
     }
 }

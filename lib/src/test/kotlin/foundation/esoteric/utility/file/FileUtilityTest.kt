@@ -1,6 +1,6 @@
 package foundation.esoteric.utility.file
 
-import foundation.esoteric.utility.resource.ResourceUtility
+import foundation.esoteric.utility.resource.saveResource
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.assertThrows
 import java.io.File
@@ -16,7 +16,7 @@ class FileUtilityTest {
     }
 
     @Test fun emptyDirectoryIsRecursivelyEmpty() {
-        assertTrue(FileUtility.isRecursivelyEmpty(run))
+        assertTrue(run.isRecursivelyEmpty())
 
         FileUtils.deleteDirectory(run)
     }
@@ -28,20 +28,20 @@ class FileUtilityTest {
         File("run/directory-two/directory-three").mkdir()
         File("run/directory-two/directory-four").mkdir()
 
-        assertTrue(FileUtility.isRecursivelyEmpty(run))
+        assertTrue(run.isRecursivelyEmpty())
     }
 
     @Test fun filledDirectoryIsntRecursivelyEmpty() {
         File("run/file.txt").createNewFile()
 
-        assertFalse(FileUtility.isRecursivelyEmpty(run))
+        assertFalse(run.isRecursivelyEmpty())
     }
 
     @Test fun deeplyFilledDirectoryIsntRecursivelyEmpty() {
         File("run/directory").mkdir()
         File("run/directory/file.txt").createNewFile()
 
-        assertFalse(FileUtility.isRecursivelyEmpty(run))
+        assertFalse(run.isRecursivelyEmpty())
     }
 
     @Test fun recursiveEmptinessThrowsWhenNotDirectory() {
@@ -49,7 +49,7 @@ class FileUtilityTest {
         file.createNewFile()
 
         assertThrows<IllegalArgumentException> {
-            FileUtility.isRecursivelyEmpty(file)
+            file.isRecursivelyEmpty()
         }
     }
 
@@ -57,7 +57,7 @@ class FileUtilityTest {
         val file = File("run/file.txt")
 
         assertThrows<IllegalArgumentException> {
-            FileUtility.isRecursivelyEmpty(file)
+            file.isRecursivelyEmpty()
         }
     }
 
@@ -67,32 +67,32 @@ class FileUtilityTest {
         file.createNewFile()
         file.writeText("Some sample text to test the SHA-1 file hash function.")
 
-        assertEquals(FileUtility.getSha1Hash(file), "d954f0153df726daae33c93f6928fadbfb15fa92")
+        assertEquals(file.getSha1Hash(), "d954f0153df726daae33c93f6928fadbfb15fa92")
     }
 
     @Test fun sha1ZipFileHashWorks() {
         val resourcePack = File(run.path, "TestPluginResourcePack.zip")
 
-        ResourceUtility.saveResource("file/FileUtilityTest/TestPluginResourcePack.zip", resourcePack.path)
+        Path("file/FileUtilityTest/TestPluginResourcePack.zip").saveResource(resourcePack.toPath())
 
         assertTrue(resourcePack.exists())
         assertTrue(resourcePack.isFile)
         assertFalse(resourcePack.isDirectory)
 
-        assertEquals("c276751b2c56bc44bce393fb3356c0bd9f3a91b4", FileUtility.getSha1Hash(resourcePack))
+        assertEquals("c276751b2c56bc44bce393fb3356c0bd9f3a91b4", resourcePack.getSha1Hash())
     }
 
     @Test fun sha1FileThrowsWhenFileNonExistent() {
         val file = File(run, "file.txt")
 
         assertThrows<IllegalArgumentException> {
-            FileUtility.getSha1Hash(file)
+            file.getSha1Hash()
         }
     }
 
     @Test fun sha1FileThrowsWhenFileIsDirectory() {
         assertThrows<IllegalArgumentException> {
-            FileUtility.getSha1Hash(run)
+            run.getSha1Hash()
         }
     }
 
@@ -121,14 +121,14 @@ class FileUtilityTest {
         extraFolder.mkdir()
 
         val resultFile = File(extraFolder, "result.zip")
-        FileUtility.zipFolder(folderToZip, resultFile)
+        folderToZip.zipFolder(resultFile)
 
         assertTrue(resultFile.exists())
     }
 
     @Test fun zipFolderThrowsWhenFolderNonExistent() {
         assertThrows<IllegalArgumentException> {
-            FileUtility.zipFolder(File(run, "folder-that-does-not-exist"), File(run, "result.zip"))
+            File(run, "folder-that-does-not-exist").zipFolder(File(run, "result.zip"))
         }
     }
 

@@ -1,15 +1,10 @@
 package foundation.esoteric.utility.string
 
-import foundation.esoteric.utility.byte.ByteUtility
+import foundation.esoteric.utility.byte.getSha1Hash
 
-class StringUtility {
-    companion object {
-        /**
-         * This method returns the SHA-1 hash of the input string.
-         * @param input The string to find the SHA-1 hash of.
-         */
-        fun getSha1Hash(input: String): String {
-            return ByteUtility.getSha1Hash(input.toByteArray())
-        }
-    }
+/**
+ * This method returns the SHA-1 hash of this `String`.
+ */
+fun String.getSha1Hash(): String {
+    return this.toByteArray().getSha1Hash()
 }
