@@ -27,7 +27,7 @@ class ResourceUtilityTest {
         }
     }
 
-    @Test fun savingResourcesWorks() {
+    @Test fun savingResourceWorks() {
         val saveLocation = File(run, "Test File.txt")
         val resourcePath = Path("resource/ResourceUtilityTest/Test File.txt")
         resourcePath.saveResource(saveLocation.toPath())
