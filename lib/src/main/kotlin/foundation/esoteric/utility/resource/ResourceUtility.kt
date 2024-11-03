@@ -14,6 +14,7 @@ import java.util.jar.JarFile
  * @return The `Path`s of all files stored in this subfolder.
  * @throws IllegalArgumentException If this `Path` does not lead to a valid resource.
  * @see Path.saveResource
+ * @see Path.saveResources
  * @author Esoteric Enderman
  */
 fun Path.resourceFilePaths(): Set<Path> {
@@ -61,6 +62,8 @@ fun Path.resourceFilePaths(): Set<Path> {
  * @param outputPath The `Path` to the output file.
  * @return The `Path`s of all files stored in this subfolder.
  * @throws IllegalArgumentException If this `Path` does not lead to a valid resource.
+ * @see Path.saveResources
+ * @see Path.resourceFilePaths
  * @author Esoteric Enderman
  */
 fun Path.saveResource(outputPath: Path) {
@@ -71,4 +74,23 @@ fun Path.saveResource(outputPath: Path) {
 
     Files.copy(resourceStream, outputPath, StandardCopyOption.REPLACE_EXISTING)
     resourceStream.close()
+}
+
+/**
+ * This method saves all resources in a subfolder of the "resources" folder specified by this `Path` to the folder specified as the `outputFolder`.
+ * @param outputFolder The folder to save the resources to.
+ * @throws IllegalArgumentException If this Path does not lead to a valid resource folder.
+ * @see Path.saveResource
+ * @see Path.resourceFilePaths
+ * @author Esoteric Enderman
+ */
+fun Path.saveResources(outputFolder: Path) {
+    Files.createDirectories(outputFolder)
+
+    this.resourceFilePaths().forEach { resourcePath ->
+        val relativePath = this.relativize(resourcePath)
+        val outputPath = outputFolder.resolve(relativePath.toString())
+
+        resourcePath.saveResource(outputPath)
+    }
 }

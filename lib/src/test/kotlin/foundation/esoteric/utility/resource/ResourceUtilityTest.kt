@@ -38,6 +38,27 @@ class ResourceUtilityTest {
         assertEquals("This file is used to test the resource utility.", saveLocation.readText().trimEnd('\n', '\r'))
     }
 
+    @Test fun savingResourcesWorks() {
+        val saveFolder = File(run, "Save Folder")
+        val resourcePath = Path.of("resource")
+        resourcePath.saveResources(saveFolder.toPath())
+
+        assertTrue(saveFolder.exists())
+        assertTrue(saveFolder.isDirectory)
+        assertFalse(saveFolder.isFile)
+
+        val resourceUtilityTest = File(saveFolder, "ResourceUtilityTest")
+        assertTrue(resourceUtilityTest.exists())
+        assertTrue(resourceUtilityTest.isDirectory)
+        assertFalse(resourceUtilityTest.isFile)
+
+        val deepFile = File(run, "Save Folder/ResourceUtilityTest/Test Folder/Test File.txt")
+        assertTrue(deepFile.exists())
+        assertTrue(deepFile.isFile)
+        assertFalse(deepFile.isDirectory)
+        assertEquals("This file is used to test the resource utility.", deepFile.readText().trimEnd('\n', '\r'))
+    }
+
     @AfterTest fun deleteRunDirectory() {
         FileUtils.deleteDirectory(run)
     }
