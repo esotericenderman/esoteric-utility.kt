@@ -61,7 +61,6 @@ fun Path.resourceFilePaths(): Set<Path> {
 /**
  * This method saves the resource in the "resources" folder specified by this `Path` to the file specified as the `outputPath`.
  * @param outputPath The `Path` to the output file.
- * @return The `Path`s of all files stored in this subfolder.
  * @throws IllegalArgumentException If this `Path` does not lead to a valid resource.
  * @see Path.saveResources
  * @see Path.resourceFilePaths
