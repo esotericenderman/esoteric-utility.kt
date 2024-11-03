@@ -17,8 +17,6 @@ class FileUtilityTest {
 
     @Test fun emptyDirectoryIsRecursivelyEmpty() {
         assertTrue(run.isRecursivelyEmpty())
-
-        FileUtils.deleteDirectory(run)
     }
 
     @Test fun recursivelyEmptyCheckWorks() {
