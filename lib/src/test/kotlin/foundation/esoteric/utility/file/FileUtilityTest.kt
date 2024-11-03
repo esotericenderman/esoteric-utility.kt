@@ -59,7 +59,7 @@ class FileUtilityTest {
         }
     }
 
-    @Test fun sha1FileHashWorks() {
+    @Test fun sha1Works() {
         val file = File(run, "file.txt")
 
         file.createNewFile()
@@ -68,7 +68,7 @@ class FileUtilityTest {
         assertEquals("d954f0153df726daae33c93f6928fadbfb15fa92", file.sha1())
     }
 
-    @Test fun sha1ZipFileHashWorks() {
+    @Test fun sha1ZipWorks() {
         val resourcePack = File(run.path, "TestPluginResourcePack.zip")
 
         Path("file/FileUtilityTest/TestPluginResourcePack.zip").saveResource(resourcePack.toPath())
@@ -80,7 +80,7 @@ class FileUtilityTest {
         assertEquals("c276751b2c56bc44bce393fb3356c0bd9f3a91b4", resourcePack.sha1())
     }
 
-    @Test fun sha1FileThrowsWhenFileNonExistent() {
+    @Test fun sha1ThrowsWhenFileNonExistent() {
         val file = File(run, "file.txt")
 
         assertThrows<IllegalArgumentException> {
@@ -88,13 +88,13 @@ class FileUtilityTest {
         }
     }
 
-    @Test fun sha1FileThrowsWhenFileIsDirectory() {
+    @Test fun sha1ThrowsWhenFileIsDirectory() {
         assertThrows<IllegalArgumentException> {
             run.sha1()
         }
     }
 
-    @Test fun zippingFolderWorks() {
+    @Test fun zipWorks() {
         val folderToZip = File(run, "folder-to-zip")
         folderToZip.mkdir()
 
