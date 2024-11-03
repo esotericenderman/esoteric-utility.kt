@@ -69,7 +69,7 @@ class FileUtilityTest {
     }
 
     @Test fun sha1ZipWorks() {
-        val resourcePack = File(run.path, "TestPluginResourcePack.zip")
+        val resourcePack = File(run, "TestPluginResourcePack.zip")
 
         Path("file/FileUtilityTest/TestPluginResourcePack.zip").saveResource(resourcePack.toPath())
 

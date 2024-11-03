@@ -30,7 +30,7 @@ class ResourceUtilityTest {
     @Test fun savingResourceWorks() {
         val saveLocation = File(run, "Test File.txt")
         val resourcePath = Path("resource/ResourceUtilityTest/Test File.txt")
-        resourcePath.saveResource(saveLocation.toPath())
+        resourcePath.saveResource(saveLocation)
 
         assertTrue(saveLocation.exists())
         assertTrue(saveLocation.isFile)
@@ -41,7 +41,7 @@ class ResourceUtilityTest {
     @Test fun savingResourcesWorks() {
         val saveFolder = File(run, "Save Folder")
         val resourcePath = Path.of("resource")
-        resourcePath.saveResources(saveFolder.toPath())
+        resourcePath.saveResources(saveFolder)
 
         assertTrue(saveFolder.exists())
         assertTrue(saveFolder.isDirectory)
