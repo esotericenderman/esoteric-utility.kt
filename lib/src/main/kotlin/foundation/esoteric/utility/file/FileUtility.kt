@@ -112,12 +112,12 @@ fun File.zip(zipFile: File): File {
     requireNotNull(this.listFiles()) { "Cannot list files of the source folder." }
     require(this.exists()) { "Source folder does not exist." }
 
-    ZipFile(zipFile).use { zipFileInstance ->
+    ZipFile(zipFile).use {
         for (file in this.listFiles()!!) {
             if (file.isDirectory) {
-                zipFileInstance.addFolder(file)
+                it.addFolder(file)
             } else {
-                zipFileInstance.addFile(file)
+                it.addFile(file)
             }
         }
     }

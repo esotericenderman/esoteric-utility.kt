@@ -28,9 +28,9 @@ fun Path.resourceFilePaths(): Set<Path> {
     when (url.scheme) {
         "file" -> {
             val folderFile = File(url)
-            folderFile.walkTopDown().forEach { file ->
-                if (file.isFile) {
-                    filePaths.add(Paths.get("$this/${file.relativeTo(folderFile).path}"))
+            folderFile.walkTopDown().forEach {
+                if (it.isFile) {
+                    filePaths.add(Paths.get("$this/${it.relativeTo(folderFile).path}"))
                 }
             }
         }
@@ -38,8 +38,8 @@ fun Path.resourceFilePaths(): Set<Path> {
             try {
                 val jarFileUrl = url.toURL().openConnection() as java.net.JarURLConnection
 
-                JarFile(jarFileUrl.jarFileURL.path).use { jarFile ->
-                    val entries = jarFile.entries()
+                JarFile(jarFileUrl.jarFileURL.path).use {
+                    val entries = it.entries()
 
                     while (entries.hasMoreElements()) {
                         val entry = entries.nextElement()
@@ -103,11 +103,11 @@ fun Path.saveResource(outputFile: File): File {
 fun Path.saveResources(outputFolder: Path): File {
     Files.createDirectories(outputFolder)
 
-    this.resourceFilePaths().forEach { resourcePath ->
-        val relativePath = this.relativize(resourcePath)
+    this.resourceFilePaths().forEach {
+        val relativePath = this.relativize(it)
         val outputPath = outputFolder.resolve(relativePath.toString())
 
-        resourcePath.saveResource(outputPath)
+        it.saveResource(outputPath)
     }
 
     return outputFolder.toFile()
