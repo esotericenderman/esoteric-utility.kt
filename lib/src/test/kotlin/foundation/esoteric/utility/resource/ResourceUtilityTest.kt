@@ -10,7 +10,7 @@ class ResourceUtilityTest {
     @Test fun resourcesListIsCorrect() {
         val resourcePaths = Path("resource").getResourceFilePaths()
 
-        assertEquals(resourcePaths, setOf(Path.of("resource/ResourceUtilityTest/Test Folder/Test File.txt"), Path.of("resource/ResourceUtilityTest/Test File.txt")))
+        assertEquals(setOf(Path.of("resource/ResourceUtilityTest/Test Folder/Test File.txt"), Path.of("resource/ResourceUtilityTest/Test File.txt")), resourcePaths)
     }
 
     @Test fun getResourcePathsThrowsCorrectly() {

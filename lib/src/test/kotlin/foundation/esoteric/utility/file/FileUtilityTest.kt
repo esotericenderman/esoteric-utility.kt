@@ -67,7 +67,7 @@ class FileUtilityTest {
         file.createNewFile()
         file.writeText("Some sample text to test the SHA-1 file hash function.")
 
-        assertEquals(file.getSha1Hash(), "d954f0153df726daae33c93f6928fadbfb15fa92")
+        assertEquals("d954f0153df726daae33c93f6928fadbfb15fa92", file.getSha1Hash())
     }
 
     @Test fun sha1ZipFileHashWorks() {
