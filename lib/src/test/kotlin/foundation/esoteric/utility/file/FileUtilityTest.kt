@@ -71,7 +71,7 @@ class FileUtilityTest {
     @Test fun sha1ZipWorks() {
         val resourcePack = File(run, "TestPluginResourcePack.zip")
 
-        Path("file/FileUtilityTest/TestPluginResourcePack.zip").saveResource(resourcePack.toPath())
+        Path("file/FileUtilityTest/TestPluginResourcePack.zip").saveResource(resourcePack)
 
         assertTrue(resourcePack.exists())
         assertTrue(resourcePack.isFile)
