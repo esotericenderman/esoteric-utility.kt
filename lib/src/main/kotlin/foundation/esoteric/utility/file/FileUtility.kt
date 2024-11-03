@@ -101,7 +101,7 @@ fun Path.sha1(): String {
  * @param zipFile The `File` location of where to output the zip archive.
  * @return The newly created zip `File`.
  * @throws IllegalArgumentException If this directory does not exist.
- * @throws IllegalArgumentException If this file is not a directory.
+ * @throws IllegalArgumentException If this `File` is not a directory.
  * @see Path.zip
  * @author Esoteric Enderman
  */
@@ -126,6 +126,32 @@ fun File.zip(zipFile: File): File {
 }
 
 /**
+ * This method creates a zip archive of the directory that this `File` represents and outputs it at the specified location parameter `zipFilePath`.
+ * @param zipFilePath The `Path` of the output file location.
+ * @return The newly created zip `File`.
+ * @throws IllegalArgumentException If this directory does not exist.
+ * @throws IllegalArgumentException If this `File` is not a directory.
+ * @see Path.zip
+ * @author Esoteric Enderman
+ */
+fun File.zip(zipFilePath: Path): File {
+    return zip(zipFilePath.toFile())
+}
+
+/**
+ * This method creates a zip archive of the directory that this `Path` leads to and outputs it at the specified location parameter `zipFile`.
+ * @param zipFile The `File` that specifies the output of the zip archive.
+ * @return The newly created zip `File`.
+ * @throws IllegalArgumentException If the directory that this `Path` leads to does not exist.
+ * @throws IllegalArgumentException If the file that this `Path` leads to is not a directory.
+ * @see File.zip
+ * @author Esoteric Enderman
+ */
+fun Path.zip(zipFile: File): File {
+    return this.toFile().zip(zipFile)
+}
+
+/**
  * This method creates a zip archive of the directory that this `Path` leads to and outputs it at the specified location parameter `zipFilePath`.
  * @param zipFilePath The `Path` that specifies the output of the zip archive.
  * @return The newly created zip `File`.
@@ -136,5 +162,5 @@ fun File.zip(zipFile: File): File {
  */
 @Throws(IOException::class)
 fun Path.zip(zipFilePath: Path): File {
-    return this.toFile().zip(zipFilePath.toFile())
+    return zip(zipFilePath.toFile())
 }
