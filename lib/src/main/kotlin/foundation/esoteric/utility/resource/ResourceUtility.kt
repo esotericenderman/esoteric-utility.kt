@@ -20,7 +20,8 @@ import java.util.jar.JarFile
 fun Path.resourceFilePaths(): Set<Path> {
     val filePaths = mutableSetOf<Path>()
 
-    val url = object {}.javaClass.classLoader.getResource(this.toString())?.toURI()
+    val pathString = this.toString()
+    val url = object {}.javaClass.classLoader.getResource(pathString)?.toURI()
 
     requireNotNull(url) { "The specified resource URL could not be found." }
 
@@ -43,7 +44,7 @@ fun Path.resourceFilePaths(): Set<Path> {
                     while (entries.hasMoreElements()) {
                         val entry = entries.nextElement()
 
-                        if (entry.name.startsWith(this.toString()) && !entry.isDirectory) {
+                        if (entry.name.startsWith(pathString) && !entry.isDirectory) {
                             filePaths.add(Paths.get(entry.name))
                         }
                     }
