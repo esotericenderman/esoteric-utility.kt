@@ -61,12 +61,13 @@ fun Path.resourceFilePaths(): Set<Path> {
 /**
  * This method saves the resource in the "resources" folder specified by this `Path` to the file specified as the `outputPath`.
  * @param outputPath The `Path` to the output file.
+ * @return The newly created `File`.
  * @throws IllegalArgumentException If this `Path` does not lead to a valid resource.
  * @see Path.saveResources
  * @see Path.resourceFilePaths
  * @author Esoteric Enderman
  */
-fun Path.saveResource(outputPath: Path) {
+fun Path.saveResource(outputPath: Path): File {
     val resourceStream: InputStream? = object {}.javaClass.classLoader.getResourceAsStream(this.toString())
     requireNotNull(resourceStream) { "Resource '$this' could not be found." }
 
@@ -74,29 +75,32 @@ fun Path.saveResource(outputPath: Path) {
 
     Files.copy(resourceStream, outputPath, StandardCopyOption.REPLACE_EXISTING)
     resourceStream.close()
+    return outputPath.toFile()
 }
 
 /**
  * This method saves the resource in the "resources" folder specified by this `Path` to the file specified as the `outputFile`.
  * @param outputFile The output file.
+ * @return The newly created `File`.
  * @throws IllegalArgumentException If this `Path` does not lead to a valid resource.
  * @see Path.saveResources
  * @see Path.resourceFilePaths
  * @author Esoteric Enderman
  */
-fun Path.saveResource(outputFile: File) {
-    saveResource(outputFile.toPath())
+fun Path.saveResource(outputFile: File): File {
+    return saveResource(outputFile.toPath())
 }
 
 /**
  * This method saves all resources in a subfolder of the "resources" folder specified by this `Path` to the folder specified as the `outputFolder`.
  * @param outputFolder The folder to save the resources to.
+ * @return The newly created `File` folder.
  * @throws IllegalArgumentException If this `Path` does not lead to a valid resource folder.
  * @see Path.saveResource
  * @see Path.resourceFilePaths
  * @author Esoteric Enderman
  */
-fun Path.saveResources(outputFolder: Path) {
+fun Path.saveResources(outputFolder: Path): File {
     Files.createDirectories(outputFolder)
 
     this.resourceFilePaths().forEach { resourcePath ->
@@ -105,16 +109,19 @@ fun Path.saveResources(outputFolder: Path) {
 
         resourcePath.saveResource(outputPath)
     }
+
+    return outputFolder.toFile()
 }
 
 /**
  * This method saves all resources in a subfolder of the "resources" folder specified by this `Path` to the folder specified as the `outputFolder`.
  * @param outputFolder The folder to save the resources to.
+ * @return The newly created `File` folder.
  * @throws IllegalArgumentException If this `Path` does not lead to a valid resource folder.
  * @see Path.saveResource
  * @see Path.resourceFilePaths
  * @author Esoteric Enderman
  */
-fun Path.saveResources(outputFolder: File) {
-    saveResources(outputFolder.toPath())
+fun Path.saveResources(outputFolder: File): File {
+    return saveResources(outputFolder.toPath())
 }
