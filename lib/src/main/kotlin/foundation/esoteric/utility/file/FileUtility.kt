@@ -1,7 +1,7 @@
 package foundation.esoteric.utility.file
 
-import foundation.esoteric.utility.byte.getSha1Hash
-import foundation.esoteric.utility.string.getSha1Hash
+import foundation.esoteric.utility.byte.sha1
+import foundation.esoteric.utility.string.sha1
 import net.lingala.zip4j.ZipFile
 import java.io.File
 import java.io.IOException
@@ -66,18 +66,18 @@ fun Path.isRecursivelyEmpty(): Boolean {
  * @return The SHA-1 hash of this `File`.
  * @throws IllegalArgumentException If this `File` does not exist.
  * @throws IllegalArgumentException If this `File` is a directory.
- * @see Path.getSha1Hash
- * @see String.getSha1Hash
- * @see ByteArray.getSha1Hash
+ * @see Path.sha1
+ * @see String.sha1
+ * @see ByteArray.sha1
  * @author Esoteric Enderman
  */
-fun File.getSha1Hash(): String {
+fun File.sha1(): String {
     require(this.exists()) { "File does not exist." }
     require(this.isFile) { "File is not a file." }
     require(!this.isDirectory) { "File is a directory." }
 
     val bytes = this.readBytes()
-    return bytes.getSha1Hash()
+    return bytes.sha1()
 }
 
 /**
@@ -87,13 +87,13 @@ fun File.getSha1Hash(): String {
  * @return The SHA-1 hash of the file that this `Path` leads to.
  * @throws IllegalArgumentException If the file does not exist.
  * @throws IllegalArgumentException If the file is a directory.
- * @see File.getSha1Hash
- * @see String.getSha1Hash
- * @see ByteArray.getSha1Hash
+ * @see File.sha1
+ * @see String.sha1
+ * @see ByteArray.sha1
  * @author Esoteric Enderman
  */
-fun Path.getSha1Hash(): String {
-    return this.toFile().getSha1Hash()
+fun Path.sha1(): String {
+    return this.toFile().sha1()
 }
 
 /**
@@ -101,11 +101,11 @@ fun Path.getSha1Hash(): String {
  * @param zipFile The `File` location of where to output the zip archive.
  * @throws IllegalArgumentException If this directory does not exist.
  * @throws IllegalArgumentException If this file is not a directory.
- * @see Path.zipFolder
+ * @see Path.zip
  * @author Esoteric Enderman
  */
 @Throws(IOException::class)
-fun File.zipFolder(zipFile: File) {
+fun File.zip(zipFile: File) {
     require(this.isDirectory)
     require(!this.isFile)
     requireNotNull(this.listFiles()) { "Cannot list files of the source folder." }
@@ -127,10 +127,10 @@ fun File.zipFolder(zipFile: File) {
  * @param zipFilePath The `Path` that specifies the output of the zip archive.
  * @throws IllegalArgumentException If the directory that this `Path` leads to does not exist.
  * @throws IllegalArgumentException If the file that this `Path` leads to is not a directory.
- * @see File.zipFolder
+ * @see File.zip
  * @author Esoteric Enderman
  */
 @Throws(IOException::class)
-fun Path.zipFolder(zipFilePath: Path) {
-    this.toFile().zipFolder(zipFilePath.toFile())
+fun Path.zip(zipFilePath: Path) {
+    this.toFile().zip(zipFilePath.toFile())
 }

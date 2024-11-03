@@ -8,14 +8,14 @@ import kotlin.test.assertEquals
 
 class ResourceUtilityTest {
     @Test fun resourcesListIsCorrect() {
-        val resourcePaths = Path("resource").getResourceFilePaths()
+        val resourcePaths = Path("resource").resourceFilePaths()
 
         assertEquals(setOf(Path.of("resource/ResourceUtilityTest/Test Folder/Test File.txt"), Path.of("resource/ResourceUtilityTest/Test File.txt")), resourcePaths)
     }
 
     @Test fun getResourcePathsThrowsCorrectly() {
         assertThrows<IllegalArgumentException> {
-            Path("some random path that does not exist").getResourceFilePaths()
+            Path("some random path that does not exist").resourceFilePaths()
         }
     }
 }

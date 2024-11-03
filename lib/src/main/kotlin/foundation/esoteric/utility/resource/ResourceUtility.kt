@@ -16,7 +16,7 @@ import java.util.jar.JarFile
  * @see Path.saveResource
  * @author Esoteric Enderman
  */
-fun Path.getResourceFilePaths(): Set<Path> {
+fun Path.resourceFilePaths(): Set<Path> {
     val filePaths = mutableSetOf<Path>()
 
     val url = object {}.javaClass.classLoader.getResource(this.toString())?.toURI()

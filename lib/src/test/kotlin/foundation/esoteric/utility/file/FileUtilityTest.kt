@@ -67,7 +67,7 @@ class FileUtilityTest {
         file.createNewFile()
         file.writeText("Some sample text to test the SHA-1 file hash function.")
 
-        assertEquals("d954f0153df726daae33c93f6928fadbfb15fa92", file.getSha1Hash())
+        assertEquals("d954f0153df726daae33c93f6928fadbfb15fa92", file.sha1())
     }
 
     @Test fun sha1ZipFileHashWorks() {
@@ -79,20 +79,20 @@ class FileUtilityTest {
         assertTrue(resourcePack.isFile)
         assertFalse(resourcePack.isDirectory)
 
-        assertEquals("c276751b2c56bc44bce393fb3356c0bd9f3a91b4", resourcePack.getSha1Hash())
+        assertEquals("c276751b2c56bc44bce393fb3356c0bd9f3a91b4", resourcePack.sha1())
     }
 
     @Test fun sha1FileThrowsWhenFileNonExistent() {
         val file = File(run, "file.txt")
 
         assertThrows<IllegalArgumentException> {
-            file.getSha1Hash()
+            file.sha1()
         }
     }
 
     @Test fun sha1FileThrowsWhenFileIsDirectory() {
         assertThrows<IllegalArgumentException> {
-            run.getSha1Hash()
+            run.sha1()
         }
     }
 
@@ -121,14 +121,14 @@ class FileUtilityTest {
         extraFolder.mkdir()
 
         val resultFile = File(extraFolder, "result.zip")
-        folderToZip.zipFolder(resultFile)
+        folderToZip.zip(resultFile)
 
         assertTrue(resultFile.exists())
     }
 
     @Test fun zipFolderThrowsWhenFolderNonExistent() {
         assertThrows<IllegalArgumentException> {
-            File(run, "folder-that-does-not-exist").zipFolder(File(run, "result.zip"))
+            File(run, "folder-that-does-not-exist").zip(File(run, "result.zip"))
         }
     }
 
