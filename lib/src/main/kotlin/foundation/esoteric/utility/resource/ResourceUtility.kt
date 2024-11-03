@@ -80,7 +80,7 @@ fun Path.saveResource(outputPath: Path) {
 /**
  * This method saves all resources in a subfolder of the "resources" folder specified by this `Path` to the folder specified as the `outputFolder`.
  * @param outputFolder The folder to save the resources to.
- * @throws IllegalArgumentException If this Path does not lead to a valid resource folder.
+ * @throws IllegalArgumentException If this `Path` does not lead to a valid resource folder.
  * @see Path.saveResource
  * @see Path.resourceFilePaths
  * @author Esoteric Enderman
