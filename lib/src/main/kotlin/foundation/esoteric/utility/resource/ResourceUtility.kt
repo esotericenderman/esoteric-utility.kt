@@ -77,6 +77,18 @@ fun Path.saveResource(outputPath: Path) {
 }
 
 /**
+ * This method saves the resource in the "resources" folder specified by this `Path` to the file specified as the `outputFile`.
+ * @param outputFile The output file.
+ * @throws IllegalArgumentException If this `Path` does not lead to a valid resource.
+ * @see Path.saveResources
+ * @see Path.resourceFilePaths
+ * @author Esoteric Enderman
+ */
+fun Path.saveResource(outputFile: File) {
+    saveResource(outputFile.toPath())
+}
+
+/**
  * This method saves all resources in a subfolder of the "resources" folder specified by this `Path` to the folder specified as the `outputFolder`.
  * @param outputFolder The folder to save the resources to.
  * @throws IllegalArgumentException If this `Path` does not lead to a valid resource folder.
@@ -93,4 +105,16 @@ fun Path.saveResources(outputFolder: Path) {
 
         resourcePath.saveResource(outputPath)
     }
+}
+
+/**
+ * This method saves all resources in a subfolder of the "resources" folder specified by this `Path` to the folder specified as the `outputFolder`.
+ * @param outputFolder The folder to save the resources to.
+ * @throws IllegalArgumentException If this `Path` does not lead to a valid resource folder.
+ * @see Path.saveResource
+ * @see Path.resourceFilePaths
+ * @author Esoteric Enderman
+ */
+fun Path.saveResources(outputFolder: File) {
+    saveResources(outputFolder.toPath())
 }
