@@ -3,7 +3,6 @@ package foundation.esoteric.utility.resource
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.assertThrows
 import java.io.File
-import java.nio.file.Path
 import kotlin.io.path.Path
 import kotlin.test.*
 
@@ -18,7 +17,7 @@ class ResourceUtilityTest {
     @Test fun resourcesListIsCorrect() {
         val resourcePaths = Path("resource").resourceFilePaths()
 
-        assertEquals(setOf(Path.of("resource/ResourceUtilityTest/Test Folder/Test File.txt"), Path.of("resource/ResourceUtilityTest/Test File.txt")), resourcePaths)
+        assertEquals(setOf(Path("resource/ResourceUtilityTest/Test Folder/Test File.txt"), Path("resource/ResourceUtilityTest/Test File.txt")), resourcePaths)
     }
 
     @Test fun getResourcePathsThrowsCorrectly() {
@@ -40,8 +39,7 @@ class ResourceUtilityTest {
 
     @Test fun savingResourcesWorks() {
         val saveFolder = File(run, "Save Folder")
-        val resourcePath = Path.of("resource")
-        resourcePath.saveResources(saveFolder)
+        Path("resource").saveResources(saveFolder)
 
         assertTrue(saveFolder.exists())
         assertTrue(saveFolder.isDirectory)
