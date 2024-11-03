@@ -9,7 +9,7 @@ import kotlin.test.*
 
 class ResourceUtilityTest {
 
-    private var run = File("run")
+    private val run = File("run")
 
     @BeforeTest fun createRunDirectory() {
         run.mkdir()
